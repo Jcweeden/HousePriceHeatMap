@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+    <Resource
+        name="jdbc/house_prices" auth="Container" type="javax.sql.DataSource"
+        maxTotal="10" maxIdle="30" maxWaitMillis="50000" 
+        url="jdbc:mysql://localhost:3306/house_prices"
+        driverClassName="com.mysql.jdbc.Driver"
+        username="root" password="ruth4steve"
+    />
+</Context>

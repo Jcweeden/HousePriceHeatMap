@@ -1,0 +1,61 @@
+language: android
+android:
+  components:
+    - tools
+    - build-tools-24.0.3
+    - android-24
+    - platform-tools
+    - extra-android-support # because I'm use support library
+    - extra-android-m2repository # because I'm use support library
+    - extra-google-m2repository
+    #- sys-img-x86-android-24
+    #- extra-intel-Hardware_Accelerated_Execution_Manager
+    - sys-img-armeabi-v7a-android-24
+
+  licenses:
+    - '.+'
+
+    #
+
+env:
+  global:
+    - TERM=dumb
+  matrix:
+  - ANDROID_TARGET=android-24 ANDROID_ABI=armeabi-v7a
+  #default/x86
+
+sudo: required
+
+jdk:
+   - oraclejdk8
+before_install:
+   - chmod +x gradlew
+  #
+
+install:
+  # Download desired version of Gradle
+  - wget http://services.gradle.org/distributions/gradle-2.14.1-all.zip
+  - unzip -qq gradle-2.14.1-all.zip
+  - export GRADLE_HOME=$PWD/gradle-2.14.1
+  - export PATH=$GRADLE_HOME/bin:$PATH
+  # just to test gradle version, against our provided one
+  - gradle -v
+  #- sudo apt-get install qemu-kvm libvirt-bin bridge-utils virt-manager
+
+# Emulator Management: Create, Start and Wait
+before_script:
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  - adb -e logcat *:W | tee logcat.log > /dev/null 2>&1 &
+
+script:
+  - travis_wait ./gradlew connectedCheck
+  - adb devices
+after_success:
+  -bash <(curl -s https://codecov.io/bash)
+
+
+
+

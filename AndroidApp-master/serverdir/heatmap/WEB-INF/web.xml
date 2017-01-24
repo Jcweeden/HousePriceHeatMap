@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" metadata-complete="true" version="3.1">
+  <servlet>
+    <servlet-name>TestMapServlet</servlet-name>
+    <servlet-class>heatmap.TestMapServlet</servlet-class>
+    <init-param>
+      <param-name>dbname</param-name>
+      <param-value>java:comp/env/jdbc/ase1</param-value>
+    </init-param>
+    <init-param>
+      <param-name>faction</param-name>
+      <param-value>http://lowcost-env.kdumcfjv2e.us-west-2.elasticbeanstalk.com/TestMapServlet</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestMapServlet</servlet-name>
+    <url-pattern>/TestMapServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>GetData</servlet-name>
+    <servlet-class>heatmap.GetData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetData</servlet-name>
+    <url-pattern>/GetData</url-pattern>
+  </servlet-mapping>
+</web-app>
